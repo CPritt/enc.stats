@@ -8,7 +8,9 @@ from spotipy.cache_handler import FlaskSessionCacheHandler
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.urandom(64)
 
-redirect_uri = "https://enc-stats.vercel.app/callback"
+redirect_uri = "https://enc-stats-r4w8f3z7q-chandler-pritts-projects.vercel.app/callback"
+
+# redirect_uri = "https://enc-stats.vercel.app/callback"
 
 # redirect_uri = "http://127.0.0.1:5000/callback"  
 
