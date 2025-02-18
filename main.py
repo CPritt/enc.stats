@@ -7,14 +7,12 @@ from spotipy.cache_handler import FlaskSessionCacheHandler
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.urandom(64)
 
-# Set redirect URI based on environment
-redirect_uri = (
-    "https://encstats.vercel.app/callback"
-    if os.getenv("FLASK_ENV") == "production"
-    else "http://127.0.0.1:5000/callback"
-)
 
-# Spotify API credentials (Use environment variables)
+redirect_uri = "https://encstats.vercel.app/callback"
+
+# redirect_uri = "http://127.0.0.1:5000/callback"  
+
+
 client_id = "da6a918341704836931958964e9f8cf9"
 client_secret = "f8e8786b555d446aa2cb28e3800234e3"
 scope = "user-read-private user-read-email user-top-read user-read-recently-played user-library-read user-library-modify user-read-playback-state user-modify-playback-state"
@@ -26,7 +24,6 @@ sp_oauth = SpotifyOAuth(
 
 @app.route("/")
 def home():
-    """Render home.html where user can click login."""
     return render_template("home.html")
 
 @app.route("/login")
@@ -46,7 +43,7 @@ def data():
     """Display user data after successful login."""
     token_info = session.get("token_info", None)
     if not token_info:
-        return redirect(url_for("home"))  # Redirect to home if not logged in
+        return redirect(url_for("home"))  
 
     sp = Spotify(auth=token_info["access_token"])
     user = sp.current_user()
