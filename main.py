@@ -8,9 +8,9 @@ from spotipy.cache_handler import FlaskSessionCacheHandler
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.urandom(64)
 
-redirect_uri = "https://encstats.vercel.app/callback"
+# redirect_uri = "https://encstats.vercel.app/callback"
 
-# redirect_uri = "http://127.0.0.1:5000/callback"  
+redirect_uri = "http://127.0.0.1:5000/callback"  
 
 
 client_id = "da6a918341704836931958964e9f8cf9"
@@ -39,12 +39,18 @@ def callback():
         if not code:
             return "Error: No authorization code provided", 400
 
+        # Try getting the access token
         token_info = sp_oauth.get_access_token(code)
-        session["token_info"] = token_info  # Store in session
+        if not token_info or "access_token" not in token_info:
+            return f"Error: Failed to get access token: {token_info}", 500
 
+        session["token_info"] = token_info  # Store token in session
+
+        print("Token Info:", token_info)  # Debugging output
         return redirect(url_for("get_data"))
 
     except Exception as e:
+        print("Callback Error:", str(e))  # Print error message
         return f"Callback Error: {str(e)}", 500
 
 @app.route("/get_data")
