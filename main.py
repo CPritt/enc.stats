@@ -34,9 +34,18 @@ def login():
 
 @app.route("/callback")
 def callback():
-    """Handle Spotify OAuth callback and store the token."""
-    session["token_info"] = sp_oauth.get_access_token(request.args["code"])
-    return redirect(url_for("data"))
+    try:
+        code = request.args.get("code")
+        if not code:
+            return "Error: No authorization code provided", 400
+
+        token_info = sp_oauth.get_access_token(code)
+        session["token_info"] = token_info  # Store in session
+
+        return redirect(url_for("data"))
+
+    except Exception as e:
+        return f"Callback Error: {str(e)}", 500
 
 @app.route("/data")
 def data():
