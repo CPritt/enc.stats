@@ -8,9 +8,9 @@ from spotipy.cache_handler import FlaskSessionCacheHandler
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.urandom(64)
 
-redirect_uri = "https://encstats.vercel.app/callback"
+# redirect_uri = "https://encstats.vercel.app/callback"
 
-# redirect_uri = "http://127.0.0.1:5000/callback"  
+redirect_uri = "http://127.0.0.1:5000/callback"  
 
 
 client_id = "da6a918341704836931958964e9f8cf9"
@@ -42,26 +42,28 @@ def callback():
         token_info = sp_oauth.get_access_token(code)
         session["token_info"] = token_info  # Store in session
 
-        return redirect(url_for("data"))
+        return redirect(url_for("get_data"))
 
     except Exception as e:
         return f"Callback Error: {str(e)}", 500
 
-@app.route("/data")
-def data():
-    """Display user data after successful login."""
-    token_info = session.get("token_info", None)
-    if not token_info:
-        return redirect(url_for("home"))  
+@app.route("/get_data")
+def get_data():
+    try:
+        token_info = session.get("token_info")
+        if not token_info:
+            return redirect(url_for("home"))
 
-    sp = Spotify(auth=token_info["access_token"])
-    user = sp.current_user()
-    top_songs = sp.current_user_top_tracks(limit=10)["items"]
-    top_artists = sp.current_user_top_artists(limit=10)["items"]
+        sp = Spotify(auth=token_info["access_token"])  # Ensure token is valid
+        user = sp.current_user()
+        top_songs = sp.current_user_top_tracks(limit=10)["items"]
+        top_albums = [album["album"] for album in sp.current_user_saved_albums(limit=10)["items"]]
+        top_artists = sp.current_user_top_artists(limit=10)["items"]
 
-    return render_template(
-        "data.html", user=user, top_songs=top_songs, top_artists=top_artists
-    )
+        return render_template("data.html", user=user, top_songs=top_songs, top_albums=top_albums, top_artists=top_artists)
+
+    except Exception as e:
+        return f"Error fetching user data: {str(e)}", 500
 
 @app.route("/logout")
 def logout():
