@@ -6,7 +6,7 @@ from spotipy.cache_handler import FlaskSessionCacheHandler
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.urandom(64)
-
+# 
 # Dynamically set redirect URI based on environment
 redirect_uri = os.getenv("SPOTIFY_REDIRECT_URI", "http://127.0.0.1:5000/callback")
 
