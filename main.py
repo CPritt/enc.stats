@@ -4,24 +4,24 @@ from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.cache_handler import FlaskSessionCacheHandler
 
-
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.urandom(64)
 
-redirect_uri = "https://enc-stats-r4w8f3z7q-chandler-pritts-projects.vercel.app/callback"
+# Dynamically set redirect URI based on environment
+redirect_uri = os.getenv("SPOTIFY_REDIRECT_URI", "http://127.0.0.1:5000/callback")
 
-# redirect_uri = "https://enc-stats.vercel.app/callback"
-
-# redirect_uri = "http://127.0.0.1:5000/callback"  
-
-
-client_id = "da6a918341704836931958964e9f8cf9"
-client_secret = "f8e8786b555d446aa2cb28e3800234e3"
+client_id = os.getenv("SPOTIFY_CLIENT_ID", "da6a918341704836931958964e9f8cf9")
+client_secret = os.getenv("SPOTIFY_CLIENT_SECRET", "f8e8786b555d446aa2cb28e3800234e3")
 scope = "user-read-private user-read-email user-top-read user-read-recently-played user-library-read user-library-modify user-read-playback-state user-modify-playback-state"
 
 cache_handler = FlaskSessionCacheHandler(session)
 sp_oauth = SpotifyOAuth(
-    client_id, client_secret, redirect_uri, scope=scope, cache_handler=cache_handler, show_dialog=True
+    client_id=client_id,
+    client_secret=client_secret,
+    redirect_uri=redirect_uri,
+    scope=scope,
+    cache_handler=cache_handler,
+    show_dialog=True
 )
 
 @app.route("/")
