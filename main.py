@@ -21,13 +21,20 @@ scope = "user-read-private user-read-email user-top-read user-read-recently-play
 
 cache_handler = FlaskSessionCacheHandler(session)
 sp_oauth = SpotifyOAuth(
-    client_id, client_secret, redirect_uri, scope=scope, cache_handler=cache_handler, show_dialog=True
+    client_id,
+    client_secret,
+    redirect_uri,
+    scope=scope,
+    cache_handler=cache_handler,
+    show_dialog=True,
 )
+
 
 @app.route("/")
 def home():
     """Render home.html where user can click login."""
     return render_template("home.html")
+
 
 @app.route("/login")
 def login():
@@ -35,11 +42,13 @@ def login():
     auth_url = sp_oauth.get_authorize_url()
     return redirect(auth_url)
 
+
 @app.route("/callback")
 def callback():
     """Handle Spotify OAuth callback and store the token."""
     session["token_info"] = sp_oauth.get_access_token(request.args["code"])
     return redirect(url_for("data"))
+
 
 @app.route("/data")
 def data():
@@ -57,11 +66,13 @@ def data():
         "data.html", user=user, top_songs=top_songs, top_artists=top_artists
     )
 
+
 @app.route("/logout")
 def logout():
     """Log out and clear session."""
     session.clear()
     return redirect(url_for("home"))
+
 
 @app.route("/artists")
 def artists():
@@ -75,6 +86,11 @@ def artists():
     top_artists = sp.current_user_top_artists(limit=10)["items"]
 
     return render_template("artists.html", user=user, top_artists=top_artists)
+
+
+@app.route("/search")
+def search():
+    return render_template("search.html")
 
 
 if __name__ == "__main__":

@@ -1,70 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify Clone</title>
-    <link rel="stylesheet" href="static/styles.css">
-    <style>
-        .artist-item {
-            display: flex;
-            align-items: center;
-            text-align: center;
-        }
-
-        .artist-item img {
-            margin-right: 10px;
-        }
-
-        .song-item {
-            display: flex;
-            align-items: center;
-        }
-
-        .song-item img {
-            margin-right: 10px;
-        }
-    </style>
-</head>
-
-<body>
-    <header>
-        <div class="container">
-            <h1>Spotify Clone</h1>
-            <nav>
-                <ul>
-                    <li><a href="{{ url_for('data') }}"class="data-button">Home</a></li>
-                    <li><a href="#">Search</a></li>
-                    <li><a href="{{ url_for('artists') }}" class ="artists-button">Artists</a></li>
-                    <li><a href="{{ url_for('logout') }}" class="logout-button">Logout</a></li>
-                </ul>
-            </nav>
+{% extends 'base.html'%}
+{%block content%}
+<div class="container">
+    <div class="content">
+        <div class="playlist">
+            <h2>Top Songs</h2>
+            <ul>
+                {% for song in top_songs %}
+            <li class="song-item">
+                <span>{{ loop.index }}.</span>  <!-- Adding the number before the image -->
+                <img src="{{ song.album.images[0].url }}" alt="{{ song.name }}" width="50" height="50">
+                {{ song.name }} - {{ song.artists[0].name if song.artists else 'Unknown Artist' }}
+            </li>
+            {% endfor %}
+            </ul>
         </div>
-    </header>
-    <div class="container">
-        <div class="content">
-            <div class="playlist">
-                <h2>Top Songs</h2>
-                <ul>
-                    {% for song in top_songs %}
-                <li class="song-item">
-                    <span>{{ loop.index }}.</span>  <!-- Adding the number before the image -->
-                    <img src="{{ song.album.images[0].url }}" alt="{{ song.name }}" width="50" height="50">
-                    {{ song.name }} - {{ song.artists[0].name if song.artists else 'Unknown Artist' }}
-                </li>
-                {% endfor %}
-                </ul>
-            </div>
-            <div>
-                <h2></h2>
-                <ul>
-                </ul>
-            </div>
-            <div>
-            </div>
+        <div>
+            <h2></h2>
+            <ul>
+            </ul>
+        </div>
+        <div>
         </div>
     </div>
-</body>
+</div>
 
-</html>
+{%endblock%}
+

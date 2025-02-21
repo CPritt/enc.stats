@@ -1,54 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Artists</title>
-    <link rel="stylesheet" href="static/styles.css">
-    <style>
-        .artist-item {
-            display: flex;
-            align-items: center;
-            text-align: center;
-        }
-
-        .artist-item img {
-            margin-right: 10px;
-        }
-    </style>
-</head>
-
-<body>
-    <header>
-        <div class="container">
-            <h1>Top Artists</h1>
-            <nav>
-                <ul>
-                    <li><a href="{{ url_for('data') }}">Home</a></li>
-                    <li><a href="#">Search</a></li>
-                    <li><a href="{{ url_for('artists' )}}">Artists</a></li>
-                    <li><a href="{{ url_for('logout') }}" class="logout-button">Logout</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <div class="container">
-        <div class="content">
-            <div class="playlist">
-                <h2>Top Artists</h2>
-                <ul>
-                    {% for artist in top_artists %}
-                    <li class="artist-item">
-                        <span>{{ loop.index }}.</span>
-                        <img src="{{ artist.images[0].url }}" alt="{{ artist.name }}" width="50" height="50">
-                        {{ artist.name }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
+{% block content %}
+<div class="container">
+    <div class="content">
+        <div class="playlist">
+            <h2>Top Artists</h2>
+            <ul>
+                {% for artist in top_artists %}
+                <li class="artist-item">
+                    <span>{{ loop.index }}.</span>
+                    <img src="{{ artist.images[0].url }}" alt="{{ artist.name }}" width="50" height="50">
+                    {{ artist.name }}
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
-</body>
-
-</html>
+</div>
+{% endblock %}
