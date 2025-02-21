@@ -5,40 +5,49 @@ body {
     background-color: #121212;
     color: #ffffff;
 }
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
+
 header {
     background-color: #000000;
     padding: 20px 0;
 }
+
 h1 {
     margin: 0;
     font-size: 24px;
 }
+
 nav ul {
     list-style-type: none;
     padding: 0;
 }
+
 nav ul li {
     display: inline;
     margin-right: 20px;
 }
+
 nav ul li a {
     color: #ffffff;
     text-decoration: none;
 }
+
 .content {
     margin-top: 40px;
 }
+
 .playlist {
     background-color: #181818;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
 }
+
 .playlist h2 {
     margin-top: 0;
 }
@@ -55,73 +64,36 @@ li {
     border-radius: 4px;
 }
 
-.song-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px; /* Adds space between each song entry */
-}
-
-.song-item span {
-    font-size: 20px; /* Increase number size */
-    font-weight: bold;
-    margin-right: 15px; /* Spacing between number and image */
-}
-
-.song-item img {
-    margin-right: 10px;
-    border-radius: 5px; /* Slightly rounded album cover */
-}
-
+.song-item,
 .artist-item {
     display: flex;
     align-items: center;
-    margin-bottom: 10px; /* Adds space between each song entry */
+    margin-bottom: 10px;
 }
 
+.song-item span,
 .artist-item span {
-    font-size: 20px; /* Increase number size */
+    font-size: 20px;
     font-weight: bold;
-    margin-right: 15px; /* Spacing between number and image */
+    margin-right: 15px;
 }
 
+.song-item img,
 .artist-item img {
     margin-right: 10px;
-    border-radius: 5px; /* Slightly rounded album cover */
-}
-.artist-item {
-    display: flex;
-    align-items: center;
-    text-align: center;
+    border-radius: 5px;
 }
 
-.artist-item img {
-    margin-right: 10px;
-}
-
-.song-item {
-    display: flex;
-    align-items: center;
-}
-
-.song-item img {
-    margin-right: 10px;
-}
-.container span{
+.container span {
     width: 30px;
     text-align: center;
 }
-.song-details{
-    padding-left :10px;
+
+.song-details {
+    padding-left: 10px;
     display: flex;
 }
-.artist-item {
-            display: flex;
-            align-items: center;
-            text-align: center;
-        }
-.artist-item img {
-    margin-right: 10px;
-}
-.playlist p{
+
+.playlist p {
     margin-left: 10px;
 }

@@ -1,19 +1,20 @@
 {% extends 'base.html'%}
 {%block content%}
 <body>
-    <h1>Search Your Most Listened Data</h1>
-    <form method="GET">
-        <input type="text" name="query" placeholder="Search...">
-        <button type="submit">Search</button>
-    </form>
-    {% if results %}
-        <h2>Search Results:</h2>
-        <ul>
-            {% for result in results %}
-                <li>{{ result }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <div>
+        <h1>Search Your Most Listened Data</h1>
+        <form method="GET">
+            <input type="text" name="query" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+        {% if results %}
+            <h2>Search Results:</h2>
+            <ul>
+                {% for result in results %}
+                    <li>{{ result }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 </body>
-
 {%endblock%}

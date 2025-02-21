@@ -61,9 +61,13 @@ def data():
     user = sp.current_user()
     top_songs = sp.current_user_top_tracks(limit=10)["items"]
     top_artists = sp.current_user_top_artists(limit=10)["items"]
-
+    top_albums = sp.current_user_saved_albums(limit=10)["items"]
     return render_template(
-        "data.html", user=user, top_songs=top_songs, top_artists=top_artists
+        "data.html",
+        user=user,
+        top_songs=top_songs,
+        top_artists=top_artists,
+        top_albums=top_albums,
     )
 
 
@@ -80,7 +84,6 @@ def artists():
     token_info = session.get("token_info", None)
     if not token_info:
         return redirect(url_for("home"))
-
     sp = Spotify(auth=token_info["access_token"])
     user = sp.current_user()
     top_artists = sp.current_user_top_artists(limit=10)["items"]
