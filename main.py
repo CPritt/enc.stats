@@ -21,13 +21,20 @@ scope = "user-read-private user-read-email user-top-read user-read-recently-play
 
 cache_handler = FlaskSessionCacheHandler(session)
 sp_oauth = SpotifyOAuth(
-    client_id, client_secret, redirect_uri, scope=scope, cache_handler=cache_handler, show_dialog=True
+    client_id,
+    client_secret,
+    redirect_uri,
+    scope=scope,
+    cache_handler=cache_handler,
+    show_dialog=True,
 )
+
 
 @app.route("/")
 def home():
     """Render home.html where user can click login."""
     return render_template("home.html")
+
 
 @app.route("/login")
 def login():
@@ -35,11 +42,13 @@ def login():
     auth_url = sp_oauth.get_authorize_url()
     return redirect(auth_url)
 
+
 @app.route("/callback")
 def callback():
     """Handle Spotify OAuth callback and store the token."""
     session["token_info"] = sp_oauth.get_access_token(request.args["code"])
     return redirect(url_for("data"))
+
 
 @app.route("/data")
 def data():
@@ -52,10 +61,15 @@ def data():
     user = sp.current_user()
     top_songs = sp.current_user_top_tracks(limit=10)["items"]
     top_artists = sp.current_user_top_artists(limit=10)["items"]
-
+    top_albums = sp.current_user_saved_albums(limit=10)["items"]
     return render_template(
-        "data.html", user=user, top_songs=top_songs, top_artists=top_artists
+        "data.html",
+        user=user,
+        top_songs=top_songs,
+        top_artists=top_artists,
+        top_albums=top_albums,
     )
+
 
 @app.route("/logout")
 def logout():
@@ -63,18 +77,23 @@ def logout():
     session.clear()
     return redirect(url_for("home"))
 
+
 @app.route("/artists")
 def artists():
     """Display top artists."""
     token_info = session.get("token_info", None)
     if not token_info:
         return redirect(url_for("home"))
-
     sp = Spotify(auth=token_info["access_token"])
     user = sp.current_user()
     top_artists = sp.current_user_top_artists(limit=10)["items"]
 
     return render_template("artists.html", user=user, top_artists=top_artists)
+
+
+@app.route("/search")
+def search():
+    return render_template("search.html")
 
 
 if __name__ == "__main__":
