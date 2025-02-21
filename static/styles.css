@@ -88,3 +88,40 @@ li {
     margin-right: 10px;
     border-radius: 5px; /* Slightly rounded album cover */
 }
+.artist-item {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.artist-item img {
+    margin-right: 10px;
+}
+
+.song-item {
+    display: flex;
+    align-items: center;
+}
+
+.song-item img {
+    margin-right: 10px;
+}
+.container span{
+    width: 30px;
+    text-align: center;
+}
+.song-details{
+    padding-left :10px;
+    display: flex;
+}
+.artist-item {
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+.artist-item img {
+    margin-right: 10px;
+}
+.playlist p{
+    margin-left: 10px;
+}
